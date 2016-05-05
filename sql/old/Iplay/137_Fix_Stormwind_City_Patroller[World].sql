@@ -1,0 +1,10 @@
+UPDATE `creature_template` SET `minlevel` = '75' , `maxlevel` = '75' , `mindmg` = '478' , `maxdmg` = '559' WHERE `entry` = '1976'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '12088'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '12093'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '79670'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '79675'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '79690'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '79792'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '79807'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '79814'; 
+UPDATE `creature` SET `curhealth` = '15953' WHERE `guid` = '90438'; 

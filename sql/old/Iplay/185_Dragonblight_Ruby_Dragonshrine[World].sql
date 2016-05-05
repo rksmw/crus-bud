@@ -1,0 +1,1 @@
+UPDATE `creature_template` SET `ScriptName` = 'npc_ruby_guardian' WHERE `entry` IN (27530);

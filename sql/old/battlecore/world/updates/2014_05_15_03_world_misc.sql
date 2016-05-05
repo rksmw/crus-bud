@@ -1,0 +1,1 @@
+UPDATE quest_template SET RequiredNpcOrGo1 = -185156 WHERE id = 10866;

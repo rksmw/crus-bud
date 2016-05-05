@@ -1,0 +1,26 @@
+UPDATE `creature_template` SET `mechanic_immune_mask`=`mechanic_immune_mask`
+|1 -- CHARM
+|2 -- DISORIENTED
+|4 -- DISARM
+|8 -- DISTRACT
+|16 -- FEAR
+|32 -- GRIP
+|64 -- ROOT
+|256 -- SILENCE
+|512 -- SLEEP
+|1024 -- SNARE
+|2048 -- STUN
+|4096 -- FREEZE
+|8192 -- KNOCKOUT
+|65536 -- POLYMORPH
+|131072 -- BANISH
+|524288 -- SHACKLE
+|4194304 -- TURN
+|8388608 -- HORROR
+|67108864 -- DAZE
+|536870912 -- SAPPED
+WHERE `entry` IN
+(39863,39864,39944,39945,40142,40143,40144,40145, -- Halion
+39746,39805, -- General Zarithrian
+39747,39823, -- Saviana Ragefire
+39751,39899,39920,39922); -- Baltharus the Warborn

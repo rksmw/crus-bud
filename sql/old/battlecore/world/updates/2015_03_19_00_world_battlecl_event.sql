@@ -1,0 +1,1 @@
+ALTER TABLE `battlecl_event` ADD `phaseMask` INT(10) UNSIGNED NOT NULL DEFAULT 1 AFTER `z`;

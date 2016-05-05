@@ -1,0 +1,28 @@
+language: cpp
+
+compiler:
+ - clang
+
+cache: apt
+
+before_install:
+ - echo "yes" | sudo add-apt-repository ppa:kalakris/cmake
+ - echo "yes" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+ - sudo apt-get -qq update
+ - sudo apt-get -qq install build-essential libtool gcc-4.8 g++-4.8 make cmake openssl
+ - sudo apt-get -qq install libssl-dev libmysqlclient15-dev libmysql++-dev libreadline6-dev zlib1g-dev libbz2-dev libzmq3-dev libace-dev
+
+before_script:
+ - mkdir build
+ - cd build
+ - cmake ../ -DPREFIX=$TRAVIS_BUILD_DIR -DWITH_WARNINGS=1 -DWITH_COREDEBUG=0 -DUSE_COREPCH=1 -DUSE_SCRIPTPCH=1 -DTOOLS=1 -DSCRIPTS=1 -DSERVERS=1 -DNOJEM=1 -DCMAKE_BUILD_TYPE=Release
+ - cd ..
+
+script:
+ - cd build
+ - make -j10
+ - make install
+ - cd ..
+
+os:
+ - linux
