@@ -77,7 +77,7 @@ public:
         {       
             player->ADD_GOSSIP_ITEM(0, msg, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2);  
         }
-        player->ADD_GOSSIP_ITEM(0, "Salir", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);        
+        player->ADD_GOSSIP_ITEM(0, "Close", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);        
         player->SEND_GOSSIP_MENU(1, creature->GetGUID());        
         return true;
     }
@@ -136,7 +136,7 @@ public:
             else
             {     
                 OnGossipHello(player, creature); 
-                creature->MonsterSay("El escenario ha sido selecionado correctamente porfavor espera unos segundos mientras se realiza el cambio...", LANG_UNIVERSAL, player);    
+                creature->MonsterSay("The stage has been properly selected please wait a few seconds while the change is made...", LANG_UNIVERSAL, player);    
             }     
         }      
         else   

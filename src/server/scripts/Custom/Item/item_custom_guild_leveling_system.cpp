@@ -33,7 +33,7 @@ public:
 
         GameObject* GuildVault = player->FindNearestGameObject(187329, 30.f);
         if (GuildVault && GuildVault->IsEventVisibleFor(player))
-            player->GetSession()->SendNotification("Ya exsite un Guild Vault Mobile invocado");
+            player->GetSession()->SendNotification("There is already a Guild Vault Mobile invoked!");
         else
         {
             GuildVault = player->SummonGameObject(187329, player->GetPositionX() + 1, player->GetPositionY() + 1, player->GetPositionZ(), 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, MINUTE * IN_MILLISECONDS);

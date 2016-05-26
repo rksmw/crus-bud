@@ -65,11 +65,11 @@ public:
 
     bool OnGossipHello(Player* player, Creature* creature)
     {
-        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Muestrame mis ordenes pendietes, por favor.", GOSSIP_SENDER_MAIN, ACTION_SEND_ORDERS);
+        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Show me my pending orders, please.", GOSSIP_SENDER_MAIN, ACTION_SEND_ORDERS);
 
         if (House* house = sHouseMgr->GetHouseBy(player))
         {
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_TAXI, "Llevame a mi House", GOSSIP_SENDER_MAIN, ACTION_HOUSE_TELE);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_TAXI, "Take me to my House", GOSSIP_SENDER_MAIN, ACTION_HOUSE_TELE);
 
             HouseRoom* room = house->GetRoom(player->GetGuildId());
 
@@ -80,15 +80,15 @@ public:
             uint32 hours    = elapsed / HOUR % 24;
             uint32 days     = elapsed / DAY;
 
-            str << "Su House caduca en ";
+            str << "Your House expires in ";
             if (days > 0)
-                str << days << " dias ";
+                str << days << " days ";
             if (hours > 0)
-                str << hours << " horas ";
+                str << hours << " hours ";
             if (days < 1 && mins > 0)
-                str << mins << " minutos ";
+                str << mins << " minutes ";
             if (hours < 1 && segs > 0)
-                str << segs << " segundos";
+                str << segs << " seconds";
 
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, str.str().c_str(), GOSSIP_SENDER_MAIN, ACTION_CLOSE);
         }
@@ -120,30 +120,30 @@ public:
             case ACTION_HOUSE_TELE_GUEST:
                 return OnGossipSelect(player, creature, sender, TeleHouse(player, _houseMemory[player->GetGUID()].house, true));
             case ACTION_HOUSE_GUILD_FAIL:
-                player->GetSession()->SendNotification("No tienes Guild");
+                player->GetSession()->SendNotification("You do not have Guild");
                 return OnGossipSelect(player, creature, sender, ACTION_CLOSE);
             case ACTION_REDEMPTION_CONFIRM:
             {
                 std::stringstream actionText;
-                actionText << "Solicitar:  ";
+                actionText << "Apply for:  ";
                 actionText << (_houseMemory[player->GetGUID()].item < ITEM_SHIP_HOUSE ? "Guild House " : "Ship House ") << _houseMemory[player->GetGUID()].house;
 
                 std::stringstream actionConfirmText;
-                actionConfirmText << "Estas seguro que deseas solicitar la House ";
+                actionConfirmText << "Are you sure you want to the House ";
                 actionConfirmText << (_houseMemory[player->GetGUID()].item < ITEM_SHIP_HOUSE ? "Guild House " : "Ship House ") << _houseMemory[player->GetGUID()].house;
                 actionConfirmText << "?";
 
                 player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_INTERACT_1, actionText.str().c_str(), GOSSIP_SENDER_MAIN, _houseMemory[player->GetGUID()].house + _houseMemory[player->GetGUID()].item, actionConfirmText.str().c_str(), 0, false);
 
                 if (sHouseMgr->GetHouseIdBy(player) == 0)
-                    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_TAXI, "Quiero dar un paseo de 2 minutos en ella", GOSSIP_SENDER_MAIN, ACTION_HOUSE_TELE_GUEST);
+                    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_TAXI, "I want to take a walk of 2 minutes on it", GOSSIP_SENDER_MAIN, ACTION_HOUSE_TELE_GUEST);
                 break;
             }
             case ACTION_REDEMPTION_SUCCESS:
-                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Ahi tienes, todo tuyo", GOSSIP_SENDER_MAIN, ACTION_CLOSE);
+                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "There you go, all yours", GOSSIP_SENDER_MAIN, ACTION_CLOSE);
                 break;
             case ACTION_FAIL:
-                player->GetSession()->SendNotification("Ha ocurrido un problema tecnico, vuelva mas tarde");
+                player->GetSession()->SendNotification("A technical problem occurred again later");
                 return OnGossipSelect(player, creature, sender, ACTION_CLOSE);
             case ACTION_CLOSE:
                 player->PlayerTalkClass->SendCloseGossip();
@@ -170,7 +170,7 @@ public:
         PreparedQueryResult result1 = CharacterDatabase.Query(stmt);
         if (!result1)
         {
-            player->GetSession()->SendNotification("No tienes ordenes pendientes");
+            player->GetSession()->SendNotification("You have no pending orders");
             return ACTION_CLOSE;
         }
         else
@@ -180,7 +180,7 @@ public:
             PreparedQueryResult result2 = CharacterDatabase.Query(stmt);
             if (!result2)
             {
-                player->GetSession()->SendNotification("No puedo ver las ordenes en este momento");
+                player->GetSession()->SendNotification("I can not see the orders at this time");
                 return ACTION_CLOSE;
             }
             else
@@ -190,11 +190,11 @@ public:
                     Field* fields2 = result2->Fetch();
 
                     std::stringstream actionText;
-                    actionText << "Retirar: ";
+                    actionText << "Remove: ";
                     actionText << fields2[0].GetString();
 
                     std::stringstream actionConfirmText;
-                    actionConfirmText << "Estas seguro que deseas retirar ";
+                    actionConfirmText << "Are you sure you want to remove ";
                     actionConfirmText << fields2[0].GetString();
                     actionConfirmText << "?";
 
@@ -238,7 +238,7 @@ public:
         if (!sended)
         {
             std::stringstream str;
-            str << "No hay " << (typeId == HOUSE_TYPE_GUILD ? "Guild" : "Ship") << " Houses disponibles";
+            str << "There is not " << (typeId == HOUSE_TYPE_GUILD ? "Guild" : "Ship") << " Houses available";
             player->GetSession()->SendNotification(str.str().c_str());
             return ACTION_CLOSE;
         }

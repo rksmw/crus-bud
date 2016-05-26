@@ -3464,7 +3464,7 @@ void World::SendCustomPvpInformationUpdate()
                 if (!overallQueueFound)
                 {
                     overallQueueFound = true;
-                    SendMessageToAllPlayersInChannel("pvp", "========== Queue Informacion ==========");
+                    SendMessageToAllPlayersInChannel("pvp", "========== Queue Information ==========");
                 }
 
                 if (!singleQueueFound)

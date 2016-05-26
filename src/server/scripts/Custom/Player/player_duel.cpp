@@ -78,7 +78,7 @@ bool DuelRatedSecurity(Player* winner, Player* loser)
         if (winner->getLevel() < MIN_LEVEL_REQ || loser->getLevel() < MIN_LEVEL_REQ)
         {
             std::ostringstream ss;
-            ss << "|cFFFFFC00[Duel Rated|r : |cFF00FFFF Tu o tu oponente necesita ser nivel " << MIN_LEVEL_REQ << " para ser elegido en un Duel Rated|r \n";
+            ss << "|cFFFFFC00[Duel Rated|r : |cFF00FFFF You or your opponent needs to be level " << MIN_LEVEL_REQ << " to be selected in a Duel Rated|r \n";
             ChatHandler(winner->GetSession()).SendSysMessage(ss.str().c_str());
             ChatHandler(loser->GetSession()).SendSysMessage(ss.str().c_str());
             return false;
@@ -87,7 +87,7 @@ bool DuelRatedSecurity(Player* winner, Player* loser)
         if (winner->GetHealth() > 10 || loser->GetStat(STAT_STAMINA) < GEAR_STAMINA_REQ)
         {
             std::ostringstream ss;
-            ss << "|cFFFFFC00[Duel Rated]|r : |cFF00FFFF Tu o tu oponente no tiene suficiente equipo para ser elegido en un Duel Rated \n";
+            ss << "|cFFFFFC00[Duel Rated]|r : |cFF00FFFF You or your opponent does not have enough equipment to be selected in a Duel Rated \n";
             ChatHandler(winner->GetSession()).SendSysMessage(ss.str().c_str());
             ChatHandler(loser->GetSession()).SendSysMessage(ss.str().c_str());
             return false;
@@ -96,7 +96,7 @@ bool DuelRatedSecurity(Player* winner, Player* loser)
         if (winner->GetSession()->GetSecurity() != 1 || loser->GetSession()->GetSecurity() != 1)
         {
             std::ostringstream ss;
-            ss << "|cFFFFFC00[Duel Rated]|r : |cFF00FFFF No puede ser recompensado si la lucha es contra un Maestro Jugador |r \n";
+            ss << "|cFFFFFC00[Duel Rated]|r : |cFF00FFFF It can not be rewarded if the fight is against a GameMaster |r \n";
             ChatHandler(winner->GetSession()).SendSysMessage(ss.str().c_str());
             ChatHandler(loser->GetSession()).SendSysMessage(ss.str().c_str());
             return false;
@@ -105,7 +105,7 @@ bool DuelRatedSecurity(Player* winner, Player* loser)
         if (winner->GetSession()->GetRemoteAddress() == loser->GetSession()->GetRemoteAddress())
         {
             std::ostringstream ss;
-            ss << "|cFFFFFC00[Duel Rated]|r : |cFF00FFFF El multi login no esta permitido en este sistema. |r \n";
+            ss << "|cFFFFFC00[Duel Rated]|r : |cFF00FFFF The multi login is not allowed on this system. |r \n";
             ChatHandler(winner->GetSession()).SendSysMessage(ss.str().c_str());
             ChatHandler(loser->GetSession()).SendSysMessage(ss.str().c_str());
             return false;
@@ -151,7 +151,7 @@ void RatingInfo(Player* player)
     uint32 winner = fields[0].GetUInt32();
     uint32 loser = fields[1].GetUInt32();
     uint32 rating = fields[2].GetUInt32();
-    ChatHandler(player->GetSession()).PSendSysMessage("[Duel Informacion] - [Duel Stats] : |cffFFFF00%u |cFF90EE90Duel win & |cffFFFF00%u |cFF90EE90Duel lose  |cffff6060[Rating] : |cffFFFF00%u \n", winner,loser,rating);
+    ChatHandler(player->GetSession()).PSendSysMessage("[Duel Information] - [Duel Stats] : |cffFFFF00%u |cFF90EE90Duel win & |cffFFFF00%u |cFF90EE90Duel lose  |cffff6060[Rating] : |cffFFFF00%u \n", winner,loser,rating);
 }
 
 void Update_Stats(Player* winer, Player* loser)

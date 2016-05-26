@@ -40,13 +40,13 @@ public:
         Creature* battleMaster = player->FindNearestCreature(NPC_ARENA_BATTLEMASTER, 30.f);
 
         if (player->IsInCombat())
-            player->GetSession()->SendNotification("No puedes invocar al Maestro de batalla de arena mientras estas en combate");
+            player->GetSession()->SendNotification("You can not invoke the battlemaster while in combat!");
         else if (player->isMoving() || player->IsFlying() || player->IsFalling() || player->IsInFlight())
-            player->GetSession()->SendNotification("No puedes invocar al Maestro de batalla de arena mientras estas en movimiento");
+            player->GetSession()->SendNotification("You can not invoke the battlemaster while moving!");
         else if (player->GetMap()->Instanceable() || player->GetTransport())
-            player->GetSession()->SendNotification("No puedes invocar al Maestro de batalla de arena en este lugar");
+            player->GetSession()->SendNotification("You can not invoke the battlemaster while on transport!");
         else if (battleMaster && battleMaster->IsEventVisibleFor(player))
-            player->GetSession()->SendNotification("Ya existe un Maestro de batalla de arena invocado");
+            player->GetSession()->SendNotification("A battlemaster already exist!");
         else
         {
             battleMaster = player->SummonCreature(NPC_ARENA_BATTLEMASTER, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, MINUTE * IN_MILLISECONDS);

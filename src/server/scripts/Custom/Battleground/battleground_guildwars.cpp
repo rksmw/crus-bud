@@ -28,8 +28,8 @@
 
 #define GOSSIP_ITEM_1   "Arathi Basin"
 #define GOSSIP_ITEM_2   "Warsong Gulch"
-#define GOSSIP_ITEM_3   "Arathi Basin (Grupo)"
-#define GOSSIP_ITEM_4   "Warsong Gulch (Grupo)"
+#define GOSSIP_ITEM_3   "Arathi Basin (Group)"
+#define GOSSIP_ITEM_4   "Warsong Gulch (Group)"
 
 enum GossipActions
 {
@@ -62,14 +62,14 @@ public:
 
         if (player->IsInCombat())
         {
-            player->GetSession()->SendNotification("No puedes hacer esto mientras estas en combate");
+            player->GetSession()->SendNotification("You can not do this while you're in combat!");
             player->CLOSE_GOSSIP_MENU();
             return true;
         }
 
         if (!player->GetGuild())
         {
-            player->GetSession()->SendNotification("No puedes unirte a la cola sin estar en una Hermandad/Guild");
+            player->GetSession()->SendNotification("You can not join the queue without being in a Guild!");
             player->CLOSE_GOSSIP_MENU();
             return true;
         }
@@ -96,14 +96,14 @@ public:
                 isGrp = true;
                 break;
             default:
-                player->GetSession()->SendNotification("No haz seleccionado un Campo de Batalla/Battle Ground valido");
+                player->GetSession()->SendNotification("You have not selected a valid Battlefield / Battleground!");
                 player->CLOSE_GOSSIP_MENU();
                 return true;
         }
 
         if (isGrp && !player->GetGroup())
         {
-            player->GetSession()->SendNotification("No esta en un Grupo/Party o Banda/Raid");
+            player->GetSession()->SendNotification("You are not in group!");
             player->CLOSE_GOSSIP_MENU();
             return true;
         }

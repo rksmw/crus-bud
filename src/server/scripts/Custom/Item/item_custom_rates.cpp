@@ -31,12 +31,12 @@ public:
         if (player->HasBlizzLootRate())
         {
             player->SetBlizzLootRate(false);
-            player->GetSession()->SendNotification("|CFF7BBEF7[Loot Especial]|r:Loot x1 Desactivado");
+            player->GetSession()->SendNotification("|CFF7BBEF7[Loot Especial]|r:Loot x1 Deactivated");
         }
         else
         {
             player->SetBlizzLootRate(true);
-            player->GetSession()->SendNotification("|CFF7BBEF7[Loot Especial]|r:Loot x1 Activado");
+            player->GetSession()->SendNotification("|CFF7BBEF7[Loot Especial]|r:Loot x1 Activated");
         }
         return true;
     }

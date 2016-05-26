@@ -184,7 +184,7 @@ static bool Arena1v1CheckTalents(Player* player)
 
     if (count >= 36)
     {
-        ChatHandler(player->GetSession()).SendSysMessage("No puedes anotar 1v1 con tantos talentos de sanacion, cambia tus talentos antes de volver a anotar.");
+		player->GetSession()->SendAreaTriggerMessage("You can't join, because you have invested too many points in a forbidden talent. Please edit your talents.");
         return false;
     }
     else

@@ -47,38 +47,38 @@ public:
 
         if (sWorld->getBoolConfig(CONFIG_SOLO_3V3_ENABLE) == false)
         {
-            ChatHandler(player->GetSession()).SendSysMessage("Script Deshabilitado");
+            ChatHandler(player->GetSession()).SendSysMessage("Script Disabled");
             return true;
         }
 
         fetchQueueList();
         std::stringstream infoQueue;
         infoQueue << "Solo 3v3 Arena\n";
-        infoQueue << "Jugadores en Cola: " << (cache3v3Queue[MELEE] + cache3v3Queue[RANGE] + cache3v3Queue[HEALER]);
+        infoQueue << "Queued Players: " << (cache3v3Queue[MELEE] + cache3v3Queue[RANGE] + cache3v3Queue[HEALER]);
 
         if (sWorld->getBoolConfig(CONFIG_SOLO_3V3_FILTER_TALENTS))
         {
             infoQueue << "\n\n";
-            infoQueue << "Melees en cola: " << cache3v3Queue[MELEE] << "\n";
-            infoQueue << "Casters en cola: " << cache3v3Queue[RANGE] << "\n";
-            infoQueue << "Healers en cola: " << cache3v3Queue[HEALER] << "\n";
+            infoQueue << "Queued Melees: " << cache3v3Queue[MELEE] << "\n";
+            infoQueue << "Queued Casters: " << cache3v3Queue[RANGE] << "\n";
+            infoQueue << "Queued Healers: " << cache3v3Queue[HEALER] << "\n";
         }
 
         if (player->InBattlegroundQueueForBattlegroundQueueType(BATTLEGROUND_QUEUE_5v5)
             || player->InBattlegroundQueueForBattlegroundQueueType(BATTLEGROUND_QUEUE_3v3_SOLO))
-            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_TALK, "Abandonar cola de Arenas", GOSSIP_SENDER_MAIN, 3, "Estas seguro?", 0, false);
+			player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_TALK, "Leave Solo queue / 1v1", GOSSIP_SENDER_MAIN, 3, "Are you sure you want to remove the solo queue / 1v1?", 0, false);
 
         if (player->InBattlegroundQueueForBattlegroundQueueType(BATTLEGROUND_QUEUE_5v5) == false &&
             player->InBattlegroundQueueForBattlegroundQueueType(BATTLEGROUND_QUEUE_3v3_SOLO) == false)
         {
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_BATTLE, "Anotar 1v1 Refriega\n", GOSSIP_SENDER_MAIN, 21);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_BATTLE, "Queue up for 1v1\n", GOSSIP_SENDER_MAIN, 21);
 
             if (player->GetArenaTeamId(ArenaTeam::GetSlotByType(ARENA_TEAM_5v5)) == NULL)
-                player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_MONEY_BAG, "Crear equipo de Arenas", GOSSIP_SENDER_MAIN, 1, "Estas seguro?", sWorld->getIntConfig(CONFIG_SOLO_3V3_COSTS), false);
+				player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_MONEY_BAG, "Create new Solo arena team", GOSSIP_SENDER_MAIN, 1, "Create new solo arena team?", sWorld->getIntConfig(CONFIG_SOLO_3V3_COSTS), false);
             else
             {
                 //player->ADD_GOSSIP_ITEM(GOSSIP_ICON_BATTLE, "Anotar 1v1 Arena\n", GOSSIP_SENDER_MAIN, 20);
-                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_BATTLE, "Anotar 3v3 Arena Solo\n", GOSSIP_SENDER_MAIN, 2);
+				player->ADD_GOSSIP_ITEM(GOSSIP_ICON_BATTLE, "Queue up for 3vs3 Arena Solo\n", GOSSIP_SENDER_MAIN, 2);
             }
         }
 
@@ -105,7 +105,7 @@ public:
             }
             else
             {
-                ChatHandler(player->GetSession()).PSendSysMessage("Necesitas ser nivel %u+ para crear un equipo de arenas.", sWorld->getIntConfig(CONFIG_SOLO_3V3_MIN_LEVEL));
+				ChatHandler(player->GetSession()).PSendSysMessage("You need level %u+ to create an arena team.", sWorld->getIntConfig(CONFIG_SOLO_3V3_MIN_LEVEL));
                 player->CLOSE_GOSSIP_MENU();
                 return true;
             }
@@ -125,7 +125,7 @@ public:
             else
                 if (ArenaCheckFullEquipAndTalents(player)
                     && JoinQueueArena(player, me, true, ARENA_TYPE_3v3_SOLO) == false)
-                    ChatHandler(player->GetSession()).SendSysMessage("Algo ha fallado mientras intentas unirte a cola. Revisa que no estes en otro tipo de cola.");
+					ChatHandler(player->GetSession()).SendSysMessage("Something went wrong while joining queue. Already in another queue?");
 
             player->CLOSE_GOSSIP_MENU();
             return true;
@@ -135,7 +135,7 @@ public:
         {
             if (ArenaCheckFullEquipAndTalents(player) && Arena1v1CheckTalents(player)
                 && JoinQueueArena(player, me, true, ARENA_TYPE_5v5) == false)
-                ChatHandler(player->GetSession()).SendSysMessage("Algo ha fallado mientras intentas unirte a cola. Revisa que no estes en otro tipo de cola.");
+                ChatHandler(player->GetSession()).SendSysMessage("Something went wrong while trying to join the queue. Check that you are not in another queue?.");
 
             player->CLOSE_GOSSIP_MENU();
             return true;
@@ -145,7 +145,7 @@ public:
         {
             if (ArenaCheckFullEquipAndTalents(player) && Arena1v1CheckTalents(player)
                 && JoinQueueArena(player, me, false, ARENA_TYPE_5v5) == false)
-                ChatHandler(player->GetSession()).SendSysMessage("Algo ha fallado mientras intentas unirte a cola. Revisa que no estes en otro tipo de cola.");
+				ChatHandler(player->GetSession()).SendSysMessage("Something went wrong while trying to join the queue. Check that you are not in another queue?.");
 
             player->CLOSE_GOSSIP_MENU();
             return true;
@@ -187,7 +187,7 @@ private:
         std::stringstream err;
 
         if (player->GetFreeTalentPoints() > 0)
-            err << "Tienes " << player->GetFreeTalentPoints() << "Talentos sin utilizar, debes aplicarlos antes de meter cola.\n";
+			err << "You have currently " << player->GetFreeTalentPoints() << " free talent points. Please spend all your talent points before queueing arena.\n";
 
         Item* newItem = NULL;
         for (uint8 slot = EQUIPMENT_SLOT_START; slot < EQUIPMENT_SLOT_END; ++slot)
@@ -198,7 +198,7 @@ private:
             newItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
             if (newItem == NULL)
             {
-                err << "Tu personaje no esta completamente equipado.\n";
+				err << "Your character is not fully equipped.\n";
                 break;
             }
         }
@@ -338,7 +338,7 @@ private:
         sArenaTeamMgr->AddArenaTeam(arenaTeam);
         arenaTeam->AddMember(player->GetGUID());
 
-        ChatHandler(player->GetSession()).SendSysMessage("El equipo de Arenas ha sido creado exitosamente!");
+		ChatHandler(player->GetSession()).SendSysMessage("Arena team successful created!");
 
         return true;
     }

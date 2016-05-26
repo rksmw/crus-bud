@@ -358,13 +358,13 @@ class RaidInfo_AllCreatureScript : public AllCreatureScript
         bool IsGuildKill = true;
         uint32 playerCount = 0;
         std::string killTeam("");
-        std::string guildName("Ninguna");
-        std::string leaderName("Indefinido");
+        std::string guildName("None");
+        std::string leaderName("Indefinite");
         uint32 raidId = 0;
         uint32 completedEncounters = 0;
         uint32 totalEncounters = 0;
-        std::string bossName("Indefinido");
-        std::string mapName("Indefinido");
+        std::string bossName("Indefinite");
+        std::string mapName("Indefinite");
         uint32 mapMaxPlayers = 0;
 
         spawnMode = map->GetSpawnMode();
@@ -392,7 +392,7 @@ class RaidInfo_AllCreatureScript : public AllCreatureScript
                 raidId = groupMember->GetInstanceId();
                 uint32 playerGuildId = 0;
                 playerGuildId = groupMember->GetGuildId();
-                std::string playerGuildName("Ninguna");
+                std::string playerGuildName("None");
                 if (playerGuildId != 0)
                     playerGuildName = sGuildMgr->GetGuildById(playerGuildId)->GetName();
 

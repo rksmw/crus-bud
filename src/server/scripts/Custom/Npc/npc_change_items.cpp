@@ -36,20 +36,20 @@ public:
         // Si estas en combate no podras usar el npc
         if (player->IsInCombat())
         {
-            _creature->MonsterWhisper("Estas en Combate", player);
+            _creature->MonsterWhisper("You are in combat!", player);
             player->CLOSE_GOSSIP_MENU();
             return true;
         }
         else
         {
-            player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> Reset de Instancias"  , GOSSIP_SENDER_MAIN, 1);
+            player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> Reset de Instances"  , GOSSIP_SENDER_MAIN, 1);
             player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> 120 Arena Points" , GOSSIP_SENDER_MAIN, 2);
             player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> 10 Emblem of Frost" , GOSSIP_SENDER_MAIN, 3);
             player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> 20 Emblem of Triumph" , GOSSIP_SENDER_MAIN, 4);
             player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> 50k HONOR" , GOSSIP_SENDER_MAIN, 5);
-            player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> Cambio de Faccion" , GOSSIP_SENDER_MAIN, 6);
-            player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> Cambio de Raza" , GOSSIP_SENDER_MAIN, 7);
-            player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> Cambio de Nombre" , GOSSIP_SENDER_MAIN, 8);
+            player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> Faction Change" , GOSSIP_SENDER_MAIN, 6);
+            player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> Race Change" , GOSSIP_SENDER_MAIN, 7);
+            player->ADD_GOSSIP_ITEM( 0, "120 Badge of Justice -> Name Change" , GOSSIP_SENDER_MAIN, 8);
 
         }
         player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, _creature->GetGUID());
