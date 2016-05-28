@@ -2692,7 +2692,7 @@ SpellMissInfo Spell::DoSpellHitOnUnit(Unit* unit, uint32 effectMask, bool scaleA
         {
             unit->RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_HITBYSPELL);
 
-            if ((!m_spellInfo->AttributesCu & SPELL_ATTR0_CU_DONT_BREAK_STEALTH))
+            if (!(m_spellInfo->AttributesCu & SPELL_ATTR0_CU_DONT_BREAK_STEALTH))
                 unit->RemoveAurasByType(SPELL_AURA_MOD_STEALTH);
 
             // Binary Resistance Include Creatures and pets

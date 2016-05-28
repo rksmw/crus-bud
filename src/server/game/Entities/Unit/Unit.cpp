@@ -1843,7 +1843,7 @@ void Unit::CalcAbsorbResist(Unit* victim, SpellSchoolMask schoolMask, DamageEffe
 
     RoundToInterval(auraAbsorbMod, 0.0f, 100.0f);
 
-    uint32 absorbIgnoringDamage = CalculatePct(dmgInfo.GetDamage(), auraAbsorbMod);
+	int32 absorbIgnoringDamage = CalculatePct(dmgInfo.GetDamage(), auraAbsorbMod);
     dmgInfo.ModifyDamage(-absorbIgnoringDamage);
 
     // We're going to call functions which can modify content of the list during iteration over it's elements
@@ -13592,7 +13592,7 @@ void Unit::ModSpellDurationTime(SpellInfo const* spellInfo, int32 & duration, Sp
     if (!spellInfo || duration < 0)
         return;
 
-    if (spellInfo->IsChanneled() && !spellInfo->Attributes & SPELL_ATTR5_HASTE_AFFECT_DURATION)
+    if (spellInfo->IsChanneled() && !(spellInfo->Attributes & SPELL_ATTR5_HASTE_AFFECT_DURATION))
         return;
 
     // called from caster
@@ -16957,7 +16957,7 @@ Aura* Unit::AddAura(uint32 spellId, Unit* target)
     if (!spellInfo)
         return NULL;
 
-   if (!target->IsAlive() && !(spellInfo->Attributes & SPELL_ATTR0_PASSIVE) && !(spellInfo->AttributesEx2 & SPELL_ATTR2_CAN_TARGET_DEAD) && ((!target->getDeathState() == JUST_RESPAWNED)))
+   if (!target->IsAlive() && !(spellInfo->Attributes & SPELL_ATTR0_PASSIVE) && !(spellInfo->AttributesEx2 & SPELL_ATTR2_CAN_TARGET_DEAD) && (target->getDeathState() != JUST_RESPAWNED))
         return NULL;
 
     return AddAura(spellInfo, MAX_EFFECT_MASK, target);
