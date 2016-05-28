@@ -93,28 +93,28 @@ void WorldDatabaseConnection::DoPrepareStatements()
     PrepareStatement(WORLD_SEL_REQ_XP, "SELECT xp_for_next_level FROM player_xp_for_level WHERE lvl = ?", CONNECTION_SYNCH);
 
     // House
-    PrepareStatement(WORLD_SEL_HOUSES, "SELECT houseId, typeId, teamId, wardenGuid, mapId, x, y, z, available, phaseable FROM battlecl_house_template", CONNECTION_SYNCH);
-    PrepareStatement(WORLD_INS_HOUSE, "INSERT INTO battlecl_house_template (houseId, typeId, teamId, wardenGuid, mapId, x, y, z, available) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_UPD_HOUSE_TYPE, "UPDATE battlecl_house_template SET typeId = ? WHERE houseId = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_UPD_HOUSE_TEAM, "UPDATE battlecl_house_template SET teamId = ? WHERE houseId = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_UPD_HOUSE_AVAILABLE, "UPDATE battlecl_house_template SET available = ? WHERE houseId = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_UPD_HOUSE_PHASEABLE, "UPDATE battlecl_house_template SET phaseable = ? WHERE houseId = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_DEL_HOUSE, "DELETE FROM battlecl_house_template WHERE houseId = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_SEL_HOUSES, "SELECT houseId, typeId, teamId, wardenGuid, mapId, x, y, z, available, phaseable FROM crusade_house_template", CONNECTION_SYNCH);
+    PrepareStatement(WORLD_INS_HOUSE, "INSERT INTO crusade_house_template (houseId, typeId, teamId, wardenGuid, mapId, x, y, z, available) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_UPD_HOUSE_TYPE, "UPDATE crusade_house_template SET typeId = ? WHERE houseId = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_UPD_HOUSE_TEAM, "UPDATE crusade_house_template SET teamId = ? WHERE houseId = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_UPD_HOUSE_AVAILABLE, "UPDATE crusade_house_template SET available = ? WHERE houseId = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_UPD_HOUSE_PHASEABLE, "UPDATE crusade_house_template SET phaseable = ? WHERE houseId = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_DEL_HOUSE, "DELETE FROM crusade_house_template WHERE houseId = ?", CONNECTION_ASYNC);
 
     // Event
-    PrepareStatement(WORLD_SEL_EVENTS, "SELECT id, name, map, x, y, z, phaseMask, visible, `time` FROM battlecl_event", CONNECTION_SYNCH);
-    PrepareStatement(WORLD_SEL_EVENT, "SELECT 1 FROM battlecl_event WHERE id = ?", CONNECTION_SYNCH);
-    PrepareStatement(WORLD_INS_EVENT, "INSERT INTO battlecl_event (name, map, x, y, z, phaseMask, visible, `time`, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_DEL_EVENT, "DELETE FROM battlecl_event WHERE id = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_UPD_EVENT, "UPDATE battlecl_event SET name = ?, map = ?, x = ?, y = ?, z = ?, phaseMask = ?, visible = ?, `time` = ? WHERE id = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_SEL_EVENT_CREATURES, "SELECT creature FROM battlecl_event_creature WHERE id = ?", CONNECTION_SYNCH);
-    PrepareStatement(WORLD_SEL_EVENT_ACCOUNT_CREATURE, "SELECT account FROM battlecl_event_creature WHERE creature = ?", CONNECTION_SYNCH);
-    PrepareStatement(WORLD_INS_EVENT_CREATURE, "INSERT INTO battlecl_event_creature (id, creature, account) VALUES (?, ?, ?)", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_DEL_EVENT_CREATURE, "DELETE FROM battlecl_event_creature WHERE creature = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_DEL_EVENT_CREATURES, "DELETE FROM battlecl_event_creature WHERE id = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_SEL_EVENT_GAMEOBJECTS, "SELECT gameobject FROM battlecl_event_gameobject WHERE id = ?", CONNECTION_SYNCH);
-    PrepareStatement(WORLD_SEL_EVENT_ACCOUNT_GAMEOBJECT, "SELECT account FROM battlecl_event_gameobject WHERE gameobject = ?", CONNECTION_SYNCH);
-    PrepareStatement(WORLD_INS_EVENT_GAMEOBJECT, "INSERT INTO battlecl_event_gameobject (id, gameobject, account) VALUES (?, ?, ?)", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_DEL_EVENT_GAMEOBJECT2, "DELETE FROM battlecl_event_gameobject WHERE gameobject = ?", CONNECTION_ASYNC);
-    PrepareStatement(WORLD_DEL_EVENT_GAMEOBJECTS, "DELETE FROM battlecl_event_gameobject WHERE id = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_SEL_EVENTS, "SELECT id, name, map, x, y, z, phaseMask, visible, `time` FROM crusade_event", CONNECTION_SYNCH);
+    PrepareStatement(WORLD_SEL_EVENT, "SELECT 1 FROM crusade_event WHERE id = ?", CONNECTION_SYNCH);
+    PrepareStatement(WORLD_INS_EVENT, "INSERT INTO crusade_event (name, map, x, y, z, phaseMask, visible, `time`, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_DEL_EVENT, "DELETE FROM crusade_event WHERE id = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_UPD_EVENT, "UPDATE crusade_event SET name = ?, map = ?, x = ?, y = ?, z = ?, phaseMask = ?, visible = ?, `time` = ? WHERE id = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_SEL_EVENT_CREATURES, "SELECT creature FROM crusade_event_creature WHERE id = ?", CONNECTION_SYNCH);
+    PrepareStatement(WORLD_SEL_EVENT_ACCOUNT_CREATURE, "SELECT account FROM crusade_event_creature WHERE creature = ?", CONNECTION_SYNCH);
+    PrepareStatement(WORLD_INS_EVENT_CREATURE, "INSERT INTO crusade_event_creature (id, creature, account) VALUES (?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_DEL_EVENT_CREATURE, "DELETE FROM crusade_event_creature WHERE creature = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_DEL_EVENT_CREATURES, "DELETE FROM crusade_event_creature WHERE id = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_SEL_EVENT_GAMEOBJECTS, "SELECT gameobject FROM crusade_event_gameobject WHERE id = ?", CONNECTION_SYNCH);
+    PrepareStatement(WORLD_SEL_EVENT_ACCOUNT_GAMEOBJECT, "SELECT account FROM crusade_event_gameobject WHERE gameobject = ?", CONNECTION_SYNCH);
+    PrepareStatement(WORLD_INS_EVENT_GAMEOBJECT, "INSERT INTO crusade_event_gameobject (id, gameobject, account) VALUES (?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_DEL_EVENT_GAMEOBJECT2, "DELETE FROM crusade_event_gameobject WHERE gameobject = ?", CONNECTION_ASYNC);
+    PrepareStatement(WORLD_DEL_EVENT_GAMEOBJECTS, "DELETE FROM crusade_event_gameobject WHERE id = ?", CONNECTION_ASYNC);
 }

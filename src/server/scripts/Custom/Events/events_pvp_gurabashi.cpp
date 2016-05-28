@@ -40,7 +40,7 @@ private:
     int CambioEquipoListo(Creature *creature)
     {
         QueryResult result;
-        result = WorldDatabase.PQuery("SELECT `time`, `refresh` FROM `battlecl_pvp_gurubashi_masters` WHERE entry = %u", creature->GetEntry());        
+        result = WorldDatabase.PQuery("SELECT `time`, `refresh` FROM `crusade_pvp_gurubashi_masters` WHERE entry = %u", creature->GetEntry());        
         
         if (result)
         {
@@ -62,7 +62,7 @@ public:
         if (UltimoTiempo)
         {
             QueryResult result;
-            result = WorldDatabase.PQuery("SELECT `id`, `name` FROM `battlecl_pvp_gurubashi_escenarios` WHERE giver = %u", creature->GetEntry());            
+            result = WorldDatabase.PQuery("SELECT `id`, `name` FROM `crusade_pvp_gurubashi_escenarios` WHERE giver = %u", creature->GetEntry());            
             
             if (result)
             {
@@ -91,10 +91,10 @@ public:
                 int TimeCur = time(0);
                 QueryResult result;
 
-                WorldDatabase.PExecute("UPDATE `battlecl_pvp_gurubashi_masters` SET `time` = %u WHERE `entry` = %u", TimeCur, creature->GetEntry());                
+                WorldDatabase.PExecute("UPDATE `crusade_pvp_gurubashi_masters` SET `time` = %u WHERE `entry` = %u", TimeCur, creature->GetEntry());                
                 
                 // GameObjects
-                result = WorldDatabase.PQuery("SELECT `x`, `y`, `z`, `o`, `entry` FROM `battlecl_pvp_gurubashi_spawns_gameobjects` WHERE `theme` = %u", action - THEME);                
+                result = WorldDatabase.PQuery("SELECT `x`, `y`, `z`, `o`, `entry` FROM `crusade_pvp_gurubashi_spawns_gameobjects` WHERE `theme` = %u", action - THEME);                
                 LG::iterator l;                
                 for (l = listagameobjects.begin(); l != listagameobjects.end(); ++l)                
                 {                    
@@ -113,7 +113,7 @@ public:
                 }
 
                 // Creaturas                
-                result = WorldDatabase.PQuery("SELECT `x`, `y`, `z`, `o`, `entry`, `spawndist` FROM `battlecl_pvp_gurubashi_creature_spawns` WHERE `theme` = %u", action - THEME);     
+                result = WorldDatabase.PQuery("SELECT `x`, `y`, `z`, `o`, `entry`, `spawndist` FROM `crusade_pvp_gurubashi_creature_spawns` WHERE `theme` = %u", action - THEME);     
                 LC::iterator i;        
                 for (i = listacreaturas.begin(); i != listacreaturas.end(); ++i)  
                 {                   

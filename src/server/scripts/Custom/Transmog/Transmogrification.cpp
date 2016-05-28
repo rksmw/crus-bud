@@ -51,7 +51,7 @@ void Transmogrification::LoadPlayerSets(Player* player)
 
     player->presetMap.clear();
 
-    QueryResult result = CharacterDatabase.PQuery("SELECT `PresetID`, `SetName`, `SetData` FROM `battlecl_transmogrification_sets` WHERE Owner = %u", player->GetGUIDLow());
+    QueryResult result = CharacterDatabase.PQuery("SELECT `PresetID`, `SetName`, `SetData` FROM `crusade_transmogrification_sets` WHERE Owner = %u", player->GetGUIDLow());
     if (!result)
         return;
 
@@ -88,7 +88,7 @@ void Transmogrification::LoadPlayerSets(Player* player)
         {
             // Should never happen
             player->presetMap.erase(PresetID);
-            CharacterDatabase.PExecute("DELETE FROM `battlecl_transmogrification_sets` WHERE Owner = %u AND PresetID = %u", player->GetGUIDLow(), uint32(PresetID));
+            CharacterDatabase.PExecute("DELETE FROM `crusade_transmogrification_sets` WHERE Owner = %u AND PresetID = %u", player->GetGUIDLow(), uint32(PresetID));
             return;
         }
 
@@ -698,16 +698,16 @@ namespace
         {
             uint32 lowguid = player->GetGUIDLow();
             SQLTransaction trans = CharacterDatabase.BeginTransaction();
-            trans->PAppend("DELETE FROM `battlecl_transmogrification` WHERE `Owner` = %u", lowguid);
+            trans->PAppend("DELETE FROM `crusade_transmogrification` WHERE `Owner` = %u", lowguid);
 #ifdef PRESETS
-            trans->PAppend("DELETE FROM `battlecl_transmogrification_sets` WHERE `Owner` = %u", lowguid);
+            trans->PAppend("DELETE FROM `crusade_transmogrification_sets` WHERE `Owner` = %u", lowguid);
 #endif
 
             for (TransmogMapType::const_iterator itr = player->transmogMap.begin(); itr != player->transmogMap.end(); ++itr)
             {
                 // Only save items that are in inventory / bank / etc
                 if (player->GetItemByGuid(itr->first))
-                    trans->PAppend("REPLACE INTO battlecl_transmogrification (GUID, FakeEntry, Owner) VALUES (%u, %u, %u)", GUID_LOPART(itr->first), itr->second, lowguid);
+                    trans->PAppend("REPLACE INTO crusade_transmogrification (GUID, FakeEntry, Owner) VALUES (%u, %u, %u)", GUID_LOPART(itr->first), itr->second, lowguid);
             }
 
 #ifdef PRESETS
@@ -718,7 +718,7 @@ namespace
                     std::ostringstream ss;
                     for (PresetslotMapType::const_iterator it2 = it->second.slotMap.begin(); it2 != it->second.slotMap.end(); ++it2)
                         ss << uint32(it2->first) << ' ' << it2->second << ' ';
-                    trans->PAppend("REPLACE INTO `battlecl_transmogrification_sets` (`Owner`, `PresetID`, `SetName`, `SetData`) VALUES (%u, %u, \"%s\", \"%s\")", lowguid, uint32(it->first), it->second.name.c_str(), ss.str().c_str());
+                    trans->PAppend("REPLACE INTO `crusade_transmogrification_sets` (`Owner`, `PresetID`, `SetName`, `SetData`) VALUES (%u, %u, \"%s\", \"%s\")", lowguid, uint32(it->first), it->second.name.c_str(), ss.str().c_str());
                 }
             }
 #endif
@@ -729,7 +729,7 @@ namespace
 
         void OnLogin(Player* player) OVERRIDE
         {
-            QueryResult result = CharacterDatabase.PQuery("SELECT GUID, FakeEntry FROM battlecl_transmogrification WHERE Owner = %u", player->GetGUIDLow());
+            QueryResult result = CharacterDatabase.PQuery("SELECT GUID, FakeEntry FROM crusade_transmogrification WHERE Owner = %u", player->GetGUIDLow());
 
             if (result)
             {
@@ -748,7 +748,7 @@ namespace
                         // Ignore, will be erased on next save.
                         // Additionally this can happen if an item was deleted from DB but still exists for the player
                         // TC_LOG_ERROR(LOG_FILTER_TRANSMOGRIFIER, "Item entry (Entry: %u, itemGUID: %u, playerGUID: %u) does not exist, ignoring.", fakeEntry, GUID_LOPART(itemGUID), player->GetGUIDLow());
-                        // CharacterDatabase.PExecute("DELETE FROM battlecl_transmogrification WHERE FakeEntry = %u", fakeEntry);
+                        // CharacterDatabase.PExecute("DELETE FROM crusade_transmogrification WHERE FakeEntry = %u", fakeEntry);
                     }
                 } while (result->NextRow());
 
@@ -786,12 +786,12 @@ namespace
         void OnStartup() OVERRIDE
         {
             TC_LOG_INFO(LOG_FILTER_TRANSMOGRIFIER, "Deleting non-existing transmogrification entries...");
-            CharacterDatabase.DirectExecute("DELETE FROM battlecl_transmogrification WHERE NOT EXISTS (SELECT 1 FROM item_instance WHERE item_instance.guid = battlecl_transmogrification.GUID)");
+            CharacterDatabase.DirectExecute("DELETE FROM crusade_transmogrification WHERE NOT EXISTS (SELECT 1 FROM item_instance WHERE item_instance.guid = crusade_transmogrification.GUID)");
 
 #ifdef PRESETS
             // Clean even if disabled
             // Dont delete even if player has more presets than should
-            CharacterDatabase.DirectExecute("DELETE FROM `battlecl_transmogrification_sets` WHERE NOT EXISTS(SELECT 1 FROM characters WHERE characters.guid = battlecl_transmogrification_sets.Owner)");
+            CharacterDatabase.DirectExecute("DELETE FROM `crusade_transmogrification_sets` WHERE NOT EXISTS(SELECT 1 FROM characters WHERE characters.guid = crusade_transmogrification_sets.Owner)");
 #endif
             sTransmogrification->LoadConfig(false);
         }

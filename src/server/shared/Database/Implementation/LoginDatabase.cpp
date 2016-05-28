@@ -108,8 +108,8 @@ void LoginDatabaseConnection::DoPrepareStatements()
     PrepareStatement(LOGIN_INS_RBAC_ACCOUNT_PERMISSION, "INSERT INTO rbac_account_permissions (accountId, permissionId, granted, realmId) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE granted = VALUES(granted)", CONNECTION_ASYNC);
     PrepareStatement(LOGIN_DEL_RBAC_ACCOUNT_PERMISSION, "DELETE FROM rbac_account_permissions WHERE accountId = ? AND permissionId = ? AND (realmId = ? OR realmId = -1)", CONNECTION_ASYNC);
 
-    PrepareStatement(LOGIN_INS_LOG_TRADES, "INSERT INTO battlecl_log_trades (accountId, type, itemId, count, money, targetAccountId, time, realmId) VALUES (?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP(), ?)", CONNECTION_ASYNC);
-    PrepareStatement(LOGIN_INS_LOG_COMMANDS, "INSERT INTO battlecl_log_commands (accountId, guid, command, args, targetType, targetName, targetGUID, x, y, z, mapId, time, realmId) VALUES(?, ?, TRIM(?), TRIM(?), ?, ?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP(), ?)", CONNECTION_ASYNC);
+    PrepareStatement(LOGIN_INS_LOG_TRADES, "INSERT INTO crusade_log_trades (accountId, type, itemId, count, money, targetAccountId, time, realmId) VALUES (?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP(), ?)", CONNECTION_ASYNC);
+    PrepareStatement(LOGIN_INS_LOG_COMMANDS, "INSERT INTO crusade_log_commands (accountId, guid, command, args, targetType, targetName, targetGUID, x, y, z, mapId, time, realmId) VALUES(?, ?, TRIM(?), TRIM(?), ?, ?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP(), ?)", CONNECTION_ASYNC);
 
     PrepareStatement(LOGIN_SEL_IPCOUNTRY, "SELECT ip_from, ip_to, country_code, country_name FROM ipcountry", CONNECTION_SYNCH);
 

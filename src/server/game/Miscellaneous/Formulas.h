@@ -182,7 +182,7 @@ namespace Trinity
                         gain *= 2;
                 }
 
-                gain = uint32(gain * sWorld->getRate(RATE_XP_KILL));
+                gain = uint32(gain * sWorld->getRate(RATE_XP_KILL) * (IsEventActive(sWorld->getIntConfig(CONFIG_RATE_XP_WEEKEND_EVID)) ? sWorld->getRate(RATE_XP_WEEKEND) : 1.0f));
 
                 // Guild Leveling System  (Bonus: Amount Experience (Rank 1 - 2)  BonusId: 2 - 8)
                 if (Guild* guild = player->GetGuild())

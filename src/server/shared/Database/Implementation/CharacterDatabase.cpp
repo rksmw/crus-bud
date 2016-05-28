@@ -606,45 +606,45 @@ void CharacterDatabaseConnection::DoPrepareStatements()
     PrepareStatement(CHAR_DEL_CHAR_PET_BY_SLOT, "DELETE FROM character_pet WHERE owner = ? AND (slot = ? OR slot > ?)", CONNECTION_ASYNC);
 
     // Guild Leveling System - Load
-    PrepareStatement(CHAR_SEL_GUILD_LEVELING_BONUS, "SELECT BonusId, RequiredGuildLevel FROM battlecl_guild_leveling_bonus_config", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_GUILD_LEVELING_BONUS, "SELECT BonusId, RequiredGuildLevel FROM crusade_guild_leveling_bonus_config", CONNECTION_SYNCH);
     PrepareStatement(CHAR_SEL_GUILD_LEVELING_LEVEL_INFO, "SELECT xp, level FROM guild WHERE guildid = ? LIMIT 1", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_SEL_GUILD_LEVELING_XP_FOR_NEXT_LEVEL, "SELECT xp_for_next_level FROM battlecl_guild_leveling_xp_for_next_level WHERE level = ? LIMIT 1", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_GUILD_LEVELING_XP_FOR_NEXT_LEVEL, "SELECT xp_for_next_level FROM crusade_guild_leveling_xp_for_next_level WHERE level = ? LIMIT 1", CONNECTION_SYNCH);
 
     // Guild Leveling System - Save
     PrepareStatement(CHAR_UPD_GUILD_LEVELING_LEVEL, "UPDATE guild SET level = ? WHERE guildid = ? LIMIT 1", CONNECTION_ASYNC);
     PrepareStatement(CHAR_UPD_GUILD_LEVELING_XP, "UPDATE guild SET xp = ? WHERE guildid = ? LIMIT 1", CONNECTION_ASYNC);
 
-    PrepareStatement(CHAR_SEL_HOUSE_ROOM, "SELECT guildId, startTime, endTime FROM battlecl_house_rooms WHERE houseId = ? ORDER BY endTime DESC LIMIT 30", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_INS_HOUSE_ROOM, "INSERT INTO battlecl_house_rooms (houseId, guildId, startTime, endTime) VALUES (?, ?, UNIX_TIMESTAMP(), ?)", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_HOUSE_ROOM_END_TIME, "UPDATE battlecl_house_rooms SET endTime = ? WHERE houseId = ? AND guildId = ? AND startTime = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_HOUSE_ROOM_GUILD, "UPDATE battlecl_house_rooms SET guildId = ? WHERE houseId = ? AND startTime = ? AND endTime = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_SEL_HOUSE_ROOM, "SELECT guildId, startTime, endTime FROM crusade_house_rooms WHERE houseId = ? ORDER BY endTime DESC LIMIT 30", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_INS_HOUSE_ROOM, "INSERT INTO crusade_house_rooms (houseId, guildId, startTime, endTime) VALUES (?, ?, UNIX_TIMESTAMP(), ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_UPD_HOUSE_ROOM_END_TIME, "UPDATE crusade_house_rooms SET endTime = ? WHERE houseId = ? AND guildId = ? AND startTime = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_UPD_HOUSE_ROOM_GUILD, "UPDATE crusade_house_rooms SET guildId = ? WHERE houseId = ? AND startTime = ? AND endTime = ?", CONNECTION_ASYNC);
 
-    PrepareStatement(CHAR_SEL_ORDERS_COUNT, "SELECT COUNT(*) FROM battlecl_store_wow_order WHERE gameAccountId = ? AND articleId > 0 AND status = 0", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_SEL_ORDER_EXIST, "SELECT 1 FROM battlecl_store_wow_order WHERE gameAccountId = ? AND articleId > 0 AND status = 0", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_SEL_ORDER, "SELECT name, articleId FROM battlecl_store_wow_article WHERE articleId IN(SELECT articleId FROM battlecl_store_wow_order WHERE gameAccountId = ? AND articleId > 0 AND status = 0)", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_SEL_ORDER_STACK, "SELECT articleCount FROM battlecl_store_wow_order WHERE gameAccountId = ? AND status = 0 AND articleId = ?", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_UPD_ORDER_STATUS, "UPDATE battlecl_store_wow_order SET status = 1, exchangeTime = UNIX_TIMESTAMP(), characterGUID = ? WHERE gameAccountId = ? AND articleId = ? AND status = 0 AND articleCount = ? LIMIT 1", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_ORDERS_COUNT, "SELECT COUNT(*) FROM crusade_store_wow_order WHERE gameAccountId = ? AND articleId > 0 AND status = 0", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_ORDER_EXIST, "SELECT 1 FROM crusade_store_wow_order WHERE gameAccountId = ? AND articleId > 0 AND status = 0", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_ORDER, "SELECT name, articleId FROM crusade_store_wow_article WHERE articleId IN(SELECT articleId FROM crusade_store_wow_order WHERE gameAccountId = ? AND articleId > 0 AND status = 0)", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_ORDER_STACK, "SELECT articleCount FROM crusade_store_wow_order WHERE gameAccountId = ? AND status = 0 AND articleId = ?", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_UPD_ORDER_STATUS, "UPDATE crusade_store_wow_order SET status = 1, exchangeTime = UNIX_TIMESTAMP(), characterGUID = ? WHERE gameAccountId = ? AND articleId = ? AND status = 0 AND articleCount = ? LIMIT 1", CONNECTION_SYNCH);
 
-    PrepareStatement(CHAR_INS_RENAME_LOG, "INSERT INTO battlecl_character_log_rename (guid, oldName, newName, time) VALUES (?, ?, ?, UNIX_TIMESTAMP())", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_INS_RACECHANGE_LOG, "INSERT INTO battlecl_character_log_racechange (guid, oldRace, newRace, time) VALUES (?, ?, ?, UNIX_TIMESTAMP())", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_INS_RENAME_LOG, "INSERT INTO crusade_character_log_rename (guid, oldName, newName, time) VALUES (?, ?, ?, UNIX_TIMESTAMP())", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_INS_RACECHANGE_LOG, "INSERT INTO crusade_character_log_racechange (guid, oldRace, newRace, time) VALUES (?, ?, ?, UNIX_TIMESTAMP())", CONNECTION_ASYNC);
 
-    PrepareStatement(CHAR_REP_ITEM_ENCHANT_VISUAL, "REPLACE INTO battlecl_item_enchant_visual (item_guid, display) VALUES (?, ?)", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_DEL_ITEM_ENCHANT_VISUAL, "DELETE FROM battlecl_item_enchant_visual WHERE item_guid = ? LIMIT 1", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_DEL_ITEM_ENCHANT_VISUAL_NOT_EXIST, "DELETE FROM battlecl_item_enchant_visual WHERE NOT EXISTS(SELECT 1 FROM item_instance WHERE battlecl_item_enchant_visual.item_guid = item_instance.guid)", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_SEL_ITEM_ENCHANT_VISUAL, "SELECT item_guid, display FROM battlecl_item_enchant_visual WHERE item_guid IN(SELECT guid FROM item_instance WHERE owner_guid = ?)", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_REP_ITEM_ENCHANT_VISUAL, "REPLACE INTO crusade_item_enchant_visual (item_guid, display) VALUES (?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_ITEM_ENCHANT_VISUAL, "DELETE FROM crusade_item_enchant_visual WHERE item_guid = ? LIMIT 1", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_ITEM_ENCHANT_VISUAL_NOT_EXIST, "DELETE FROM crusade_item_enchant_visual WHERE NOT EXISTS(SELECT 1 FROM item_instance WHERE crusade_item_enchant_visual.item_guid = item_instance.guid)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_SEL_ITEM_ENCHANT_VISUAL, "SELECT item_guid, display FROM crusade_item_enchant_visual WHERE item_guid IN(SELECT guid FROM item_instance WHERE owner_guid = ?)", CONNECTION_SYNCH);
 
-    PrepareStatement(CHAR_SEL_BACKUP_CHARACTER, "SELECT endTime FROM battlecl_character_backup WHERE account = ? AND endTime >= UNIX_TIMESTAMP() LIMIT 1", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_INS_BACKUP_ITEM, "INSERT INTO battlecl_character_backup_item (guid, entry) VALUES (?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_SEL_BACKUP_CHARACTER, "SELECT endTime FROM crusade_character_backup WHERE account = ? AND endTime >= UNIX_TIMESTAMP() LIMIT 1", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_INS_BACKUP_ITEM, "INSERT INTO crusade_character_backup_item (guid, entry) VALUES (?, ?)", CONNECTION_ASYNC);
 
-    PrepareStatement(CHAR_SEL_GUILDWARS, "SELECT 1 FROM battlecl_guildwars WHERE guildId = ?", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_UPD_GUILDWARS_WIN, "UPDATE battlecl_guildwars SET win = win + 1, total = total + 1 WHERE guildId = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_GUILDWARS_LOSE, "UPDATE battlecl_guildwars SET total = total + 1 WHERE guildId = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_INS_GUILDWARS, "INSERT INTO battlecl_guildwars (guildId, win) VALUES (?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_SEL_GUILDWARS, "SELECT 1 FROM crusade_guildwars WHERE guildId = ?", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_UPD_GUILDWARS_WIN, "UPDATE crusade_guildwars SET win = win + 1, total = total + 1 WHERE guildId = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_UPD_GUILDWARS_LOSE, "UPDATE crusade_guildwars SET total = total + 1 WHERE guildId = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_INS_GUILDWARS, "INSERT INTO crusade_guildwars (guildId, win) VALUES (?, ?)", CONNECTION_ASYNC);
 
     // QuestTracker
-    PrepareStatement(CHAR_INS_QUEST_TRACK, "INSERT INTO battlecl_quest_tracker (id, character_guid, quest_accept_time, core_hash, core_revision) VALUES (?, ?, NOW(), ?, ?)", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_QUEST_TRACK_GM_COMPLETE, "UPDATE battlecl_quest_tracker SET completed_by_gm = 1 WHERE id = ? AND character_guid = ? ORDER BY quest_accept_time DESC LIMIT 1", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_QUEST_TRACK_COMPLETE_TIME, "UPDATE battlecl_quest_tracker SET quest_complete_time = NOW() WHERE id = ? AND character_guid = ? ORDER BY quest_accept_time DESC LIMIT 1", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_UPD_QUEST_TRACK_ABANDON_TIME, "UPDATE battlecl_quest_tracker SET quest_abandon_time = NOW() WHERE id = ? AND character_guid = ? ORDER BY quest_accept_time DESC LIMIT 1", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_INS_QUEST_TRACK, "INSERT INTO crusade_quest_tracker (id, character_guid, quest_accept_time, core_hash, core_revision) VALUES (?, ?, NOW(), ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_UPD_QUEST_TRACK_GM_COMPLETE, "UPDATE crusade_quest_tracker SET completed_by_gm = 1 WHERE id = ? AND character_guid = ? ORDER BY quest_accept_time DESC LIMIT 1", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_UPD_QUEST_TRACK_COMPLETE_TIME, "UPDATE crusade_quest_tracker SET quest_complete_time = NOW() WHERE id = ? AND character_guid = ? ORDER BY quest_accept_time DESC LIMIT 1", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_UPD_QUEST_TRACK_ABANDON_TIME, "UPDATE crusade_quest_tracker SET quest_abandon_time = NOW() WHERE id = ? AND character_guid = ? ORDER BY quest_accept_time DESC LIMIT 1", CONNECTION_ASYNC);
 
 }

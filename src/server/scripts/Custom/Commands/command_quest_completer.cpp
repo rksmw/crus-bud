@@ -169,7 +169,7 @@ public:
 
     static bool HandleQuestCompleterReloadCommand(ChatHandler* handler, char const* args)
     {
-        sLog->outInfo(LOG_FILTER_GENERAL, "Reloading battlecl_questcompleter table..");
+        sLog->outInfo(LOG_FILTER_GENERAL, "Reloading crusade_questcompleter table..");
         ReloadAutocompleteQuests();
         handler->SendGlobalGMSysMessage("Autocomplete quests reloaded");
         return true;

@@ -33,7 +33,7 @@ void CreatePhase(Player * player, bool IsMember, uint32 phase)
 
     if (IsMember == false)
     {
-        ss << "INSERT INTO battlecl_phase VALUES("
+        ss << "INSERT INTO crusade_phase VALUES("
             << "'" << player->GetGUID() << "',"
             << "'" << player->GetName() << "',"
             << "'" << phase << "',"
@@ -43,7 +43,7 @@ void CreatePhase(Player * player, bool IsMember, uint32 phase)
     }
     else
     {
-        ss << "INSERT INTO battlecl_phase_members VALUES("
+        ss << "INSERT INTO crusade_phase_members VALUES("
             << "'" << player->GetGUID() << "',"
             << "'" << player->GetName() << "',"
             << "'" << phase << "',"
@@ -102,8 +102,8 @@ public:
         else if (phase == 1) // Default is 1, if someone owned that, then everyone would be screwed xD
             return false;
 
-        QueryResult get_phase = CharacterDatabase.PQuery("SELECT phase_owned FROM battlecl_phase WHERE phase='%u'", phase);
-        QueryResult check = CharacterDatabase.PQuery("SELECT phase_owned FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+        QueryResult get_phase = CharacterDatabase.PQuery("SELECT phase_owned FROM crusade_phase WHERE phase='%u'", phase);
+        QueryResult check = CharacterDatabase.PQuery("SELECT phase_owned FROM crusade_phase WHERE guid='%u'", player->GetGUID());
 
         if (check)
         {
@@ -161,7 +161,7 @@ public:
             chat->PSendSysMessage("|cff4169E1You are now entering phase 1.|r (Default Phase)");
         }
 
-        QueryResult hasPhase = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+        QueryResult hasPhase = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase WHERE guid='%u'", player->GetGUID());
         if (hasPhase)
         {
             do
@@ -175,7 +175,7 @@ public:
             } while (hasPhase->NextRow());
         }
 
-        QueryResult myPhase = CharacterDatabase.PQuery("SELECT get_phase FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+        QueryResult myPhase = CharacterDatabase.PQuery("SELECT get_phase FROM crusade_phase WHERE guid='%u'", player->GetGUID());
 
         if (myPhase)
         {
@@ -190,7 +190,7 @@ public:
             } while (myPhase->NextRow());
         }
 
-        QueryResult isCompleted = CharacterDatabase.PQuery("SELECT has_completed,guid,phase FROM battlecl_phase WHERE phase='%u'", phase);
+        QueryResult isCompleted = CharacterDatabase.PQuery("SELECT has_completed,guid,phase FROM crusade_phase WHERE phase='%u'", phase);
         if (!isCompleted)
             return false;
 
@@ -202,13 +202,13 @@ public:
                 if (fields[0].GetUInt16() == 1) // if the phase is completed
                 {
                     player->SetPhaseMask(phase, true);
-                    CharacterDatabase.PExecute("UPDATE battlecl_phase SET get_phase='%u' WHERE guid='%u'", phase, player->GetGUID());
+                    CharacterDatabase.PExecute("UPDATE crusade_phase SET get_phase='%u' WHERE guid='%u'", phase, player->GetGUID());
                     chat->PSendSysMessage("|cff4169E1You are now entering phase %u.|r", phase);
                 }
                 else if (player->GetGUID() == fields[1].GetUInt64() && fields[2].GetUInt32() == phase)
                 {
                     player->SetPhaseMask(phase, true);
-                    CharacterDatabase.PExecute("UPDATE battlecl_phase SET get_phase='%u' WHERE guid='%u'", phase, player->GetGUID());
+                    CharacterDatabase.PExecute("UPDATE crusade_phase SET get_phase='%u' WHERE guid='%u'", phase, player->GetGUID());
                     chat->PSendSysMessage("|cffffffffYou are now entering your own phase %u.|r", phase);
                 }
                 else // if the phase isn't completed
@@ -235,12 +235,12 @@ public:
         Player * player = chat->GetSession()->GetPlayer();
 
         player->SetPhaseMask(0, true);
-        QueryResult res = CharacterDatabase.PQuery("SELECT * FROM battlecl_phase WHERE guid='%u' LIMIT 1", player->GetGUID());
+        QueryResult res = CharacterDatabase.PQuery("SELECT * FROM crusade_phase WHERE guid='%u' LIMIT 1", player->GetGUID());
         if (!res)
             return false;
 
-        CharacterDatabase.PExecute("DELETE FROM battlecl_phase WHERE (guid='%u')", player->GetGUID());
-        CharacterDatabase.PExecute("DELETE FROM battlecl_phase_members WHERE (guid='%u')", player->GetGUID());
+        CharacterDatabase.PExecute("DELETE FROM crusade_phase WHERE (guid='%u')", player->GetGUID());
+        CharacterDatabase.PExecute("DELETE FROM crusade_phase_members WHERE (guid='%u')", player->GetGUID());
         chat->SendSysMessage("|cffFFFF00Your phase has now been deleted.|r");
         return true;
     };
@@ -252,7 +252,7 @@ public:
 
         Player * player = chat->GetSession()->GetPlayer();
 
-        QueryResult phase = CharacterDatabase.PQuery("SELECT phase FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+        QueryResult phase = CharacterDatabase.PQuery("SELECT phase FROM crusade_phase WHERE guid='%u'", player->GetGUID());
         if (!phase)
             return false;
 
@@ -261,7 +261,7 @@ public:
             do
             {
                 Field * fields = phase->Fetch();
-                QueryResult getplayer = CharacterDatabase.PQuery("SELECT get_phase FROM battlecl_phase WHERE player_name='%s'", args);
+                QueryResult getplayer = CharacterDatabase.PQuery("SELECT get_phase FROM crusade_phase WHERE player_name='%s'", args);
                 if (!getplayer)
                     return false;
 
@@ -274,7 +274,7 @@ public:
                     target->SetPhaseMask(0, true);
                     snprintf(msg, 255, "|cffFF0000You were kicked from phase %u by %s!|r", fields[0].GetInt32(), player->GetName().c_str());
                     player->Whisper(msg, LANG_UNIVERSAL, player->GetGUID());
-                    CharacterDatabase.PExecute("UPDATE battlecl_phase SET get_phase='0' AND get_phase='0' WHERE (guid='%u')", player->GetGUID());
+                    CharacterDatabase.PExecute("UPDATE crusade_phase SET get_phase='0' AND get_phase='0' WHERE (guid='%u')", player->GetGUID());
                 }
                 else
                 {
@@ -290,7 +290,7 @@ public:
     static bool HandlePhaseGetCommand(ChatHandler * chat, const char * args)
     {
         Player * player = chat->GetSession()->GetPlayer();
-        QueryResult getPhaseAndOwnedPhase = CharacterDatabase.PQuery("SELECT COUNT(*),get_phase,phase FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+        QueryResult getPhaseAndOwnedPhase = CharacterDatabase.PQuery("SELECT COUNT(*),get_phase,phase FROM crusade_phase WHERE guid='%u'", player->GetGUID());
         if (!getPhaseAndOwnedPhase)
             return false;
 
@@ -323,7 +323,7 @@ public:
         if (yesorno > 1)
             return false;
 
-        QueryResult isOwnerOfAPhase = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+        QueryResult isOwnerOfAPhase = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase WHERE guid='%u'", player->GetGUID());
         if (isOwnerOfAPhase)
         {
             do
@@ -339,7 +339,7 @@ public:
         if (yesorno == 1)
         {
             chat->SendSysMessage("|cffFFA500You have now completed your phase! It is open for public.|r");
-            CharacterDatabase.PExecute("UPDATE battlecl_phase SET has_completed='1' WHERE guid='%u'", player->GetGUID());
+            CharacterDatabase.PExecute("UPDATE crusade_phase SET has_completed='1' WHERE guid='%u'", player->GetGUID());
         }
         else if (yesorno == 0)
         {
@@ -367,7 +367,7 @@ public:
         if (target == player)
             return false;
 
-        QueryResult isOwnerOfAPhase = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase WHERE player_name='%s'", target->GetName().c_str());
+        QueryResult isOwnerOfAPhase = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase WHERE player_name='%s'", target->GetName().c_str());
         if (isOwnerOfAPhase)
         {
             do
@@ -380,7 +380,7 @@ public:
                 }
             } while (isOwnerOfAPhase->NextRow());
         }
-        QueryResult isMember = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase_members WHERE player_name='%s' AND phase='%u'", target->GetName().c_str(), ph);
+        QueryResult isMember = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase_members WHERE player_name='%s' AND phase='%u'", target->GetName().c_str(), ph);
         if (isMember)
         {
             do
@@ -393,7 +393,7 @@ public:
                 }
             } while (isMember->NextRow());
         }
-        QueryResult isOwner = CharacterDatabase.PQuery("SELECT phase_owned FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+        QueryResult isOwner = CharacterDatabase.PQuery("SELECT phase_owned FROM crusade_phase WHERE guid='%u'", player->GetGUID());
         if (isOwner)
         {
             do
@@ -470,7 +470,7 @@ public:
                 return false;
 
             QueryResult res;
-            res = CharacterDatabase.PQuery("SELECT get_phase FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+            res = CharacterDatabase.PQuery("SELECT get_phase FROM crusade_phase WHERE guid='%u'", player->GetGUID());
             if (res)
             {
                 do
@@ -484,7 +484,7 @@ public:
                     }
 
                     QueryResult result;
-                    result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
+                    result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
                         player->GetGUID(), (uint32)val);
 
                     if (result)
@@ -560,7 +560,7 @@ public:
                     return false;
 
                 QueryResult res;
-                res = CharacterDatabase.PQuery("SELECT get_phase FROM battlecl_phase WHERE guid='%u'", pl->GetGUID());
+                res = CharacterDatabase.PQuery("SELECT get_phase FROM crusade_phase WHERE guid='%u'", pl->GetGUID());
                 if (res)
                 {
                     do
@@ -574,7 +574,7 @@ public:
                         }
 
                         QueryResult result;
-                        result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
+                        result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
                             pl->GetGUID(), (uint32)val);
 
                         if (result)
@@ -721,7 +721,7 @@ public:
                 return false;
 
             QueryResult res;
-            res = CharacterDatabase.PQuery("SELECT get_phase FROM battlecl_phase WHERE guid='%u'", player->GetGUID());
+            res = CharacterDatabase.PQuery("SELECT get_phase FROM crusade_phase WHERE guid='%u'", player->GetGUID());
             if (res)
             {
                 do
@@ -735,7 +735,7 @@ public:
                     }
 
                     QueryResult result;
-                    result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
+                    result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
                         player->GetGUID(), (uint32)val);
 
                     if (result)
@@ -824,7 +824,7 @@ public:
                 return false;
 
             QueryResult res;
-            res = CharacterDatabase.PQuery("SELECT get_phase FROM battlecl_phase WHERE guid='%u'", chr->GetGUID());
+            res = CharacterDatabase.PQuery("SELECT get_phase FROM crusade_phase WHERE guid='%u'", chr->GetGUID());
             if (res)
             {
                 do
@@ -838,7 +838,7 @@ public:
                     }
 
                     QueryResult result;
-                    result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
+                    result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
                         chr->GetGUID(), (uint32)val);
 
                     if (result)
@@ -889,7 +889,7 @@ public:
                     return false;
 
                 QueryResult res;
-                res = CharacterDatabase.PQuery("SELECT get_phase FROM battlecl_phase WHERE guid='%u'", pl->GetGUID());
+                res = CharacterDatabase.PQuery("SELECT get_phase FROM crusade_phase WHERE guid='%u'", pl->GetGUID());
                 if (res)
                 {
                     do
@@ -903,7 +903,7 @@ public:
                         }
 
                         QueryResult result;
-                        result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM battlecl_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
+                        result = CharacterDatabase.PQuery("SELECT COUNT(*) FROM crusade_phase_members WHERE guid='%u' AND phase='1' LIMIT 1",
                             pl->GetGUID(), (uint32)val);
 
                         if (result)
