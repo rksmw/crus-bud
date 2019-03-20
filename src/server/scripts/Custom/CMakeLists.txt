@@ -38,8 +38,8 @@ set(scripts_STAT_SRCS
   Custom/Item/item_custom_rates.cpp
   Custom/Item/item_custom_guild_leveling_system.cpp
   Custom/Item/item_radio_wow.cpp
-  Custom/Item/item_shirt_ilusion.cpp  
-
+  
+  
   Custom/Npc/npc_duel.cpp
   Custom/Npc/npc_store.cpp
   Custom/Npc/npc_goku.cpp
