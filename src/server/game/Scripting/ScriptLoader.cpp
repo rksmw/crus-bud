@@ -713,7 +713,6 @@ void AddSC_item_enchant_visual();
 void AddSC_item_change_rates();
 void AddSC_item_arena_battlemaster_summoner();
 void AddSC_item_custom_guild_leveling_system();
-void AddSC_item_custom_shirt_ilusion();
 void AddSC_item_radio_wow();
 // Npc
 void AddSC_npc_store();
@@ -1502,7 +1501,6 @@ void AddCustomScripts()
     AddSC_item_change_rates();
     AddSC_item_arena_battlemaster_summoner();
     AddSC_item_custom_guild_leveling_system();
-    AddSC_item_custom_shirt_ilusion();
     AddSC_item_radio_wow();
     // Npc
     AddSC_npc_store();
